@@ -9,7 +9,7 @@ namespace Evolvex.EnemyLosses.Tests
     [TestClass]
     public class MinfinParserTest
     {
-        private static readonly string _inputPath = @"D:\git\Mlhama202203\Evolvex.EnemyLosses\SampleData\MinfinEnemyCasualtiesSample.txt";
+        private static readonly string _inputPath = @"..\..\..\..\..\Evolvex.EnemyLosses\SampleData\MinfinEnemyCasualtiesSample.txt";
         [TestMethod]
         public void DateSplitter()
         {
@@ -68,8 +68,34 @@ namespace Evolvex.EnemyLosses.Tests
         public void ParseInduceNetsPrintAll()
         {
             var rslts = LossesRawTextMinfinParser.Parse(File.ReadAllText(_inputPath));
+            LossesAnalyzer.CleanUpGarbase(rslts);
             LossesAnalyzer.InduceFillNetDayLosses(rslts);
             File.WriteAllText($"{_inputPath}.netsfilled.json", JsonConvert.SerializeObject(rslts, Formatting.Indented));
+        }
+
+        [TestMethod]
+        public void TestDetectFalseLabels()
+        {
+            var rslts = LossesRawTextMinfinParser.Parse(File.ReadAllText(_inputPath));
+            LossesAnalyzer.InduceFillNetDayLosses(rslts);
+            var falseLabels = LossesAnalyzer.DetectFalseLabels(rslts);
+            Trace.WriteLine(String.Join("\n", falseLabels));
+        }
+
+        [TestMethod]
+        public void TestAggregateStats()
+        {
+            var rslts = LossesRawTextMinfinParser.Parse(File.ReadAllText(_inputPath));
+            LossesAnalyzer.CleanUpGarbase(rslts);
+            LossesAnalyzer.InduceFillNetDayLosses(rslts);
+            var aggrs = LossesAnalyzer.AggregateStatsByLabel(rslts);
+            //Trace.WriteLine(JsonConvert.SerializeObject(aggrs, Formatting.Indented));
+            List<Tuple<string, int, int, int>> sortedStats = new List<Tuple<string, int, int, int>>();
+            foreach (string lbl in aggrs.Keys)
+            {
+                sortedStats.Add(new Tuple<string, int, int, int>(lbl, aggrs[lbl].Item1, aggrs[lbl].Item2, aggrs[lbl].Item3));
+            }
+            Trace.WriteLine(JsonConvert.SerializeObject(sortedStats.OrderByDescending(t => t.Item4).ToList(), Formatting.Indented));
         }
     }
 }
