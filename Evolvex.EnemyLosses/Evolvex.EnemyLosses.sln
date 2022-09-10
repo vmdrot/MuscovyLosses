@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evolvex.EnemyLosses.CLI", "Evolvex.EnemyLosses.CLI\Evolvex.EnemyLosses.CLI.csproj", "{5065B199-ADEF-4167-9011-2DBF1E487DF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evolvex.EnemyLosses.Lib", "Evolvex.EnemyLosses.Lib\Evolvex.EnemyLosses.Lib.csproj", "{5EF090B9-E825-4E55-8A94-AE59AD44572D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SampleData", "SampleData", "{A54CA1AE-23C5-4BC2-98DB-152EC90F96F3}"
+	ProjectSection(SolutionItems) = preProject
+		SampleData\MinfinEnemyCasualtiesSample.txt = SampleData\MinfinEnemyCasualtiesSample.txt
+		SampleDataSources.txt = SampleDataSources.txt
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evolvex.EnemyLosses.Tests", "Evolvex.EnemyLosses.Tests\Evolvex.EnemyLosses.Tests.csproj", "{83F06878-000E-4763-9565-A14110768637}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5065B199-ADEF-4167-9011-2DBF1E487DF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5065B199-ADEF-4167-9011-2DBF1E487DF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5065B199-ADEF-4167-9011-2DBF1E487DF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5065B199-ADEF-4167-9011-2DBF1E487DF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EF090B9-E825-4E55-8A94-AE59AD44572D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EF090B9-E825-4E55-8A94-AE59AD44572D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EF090B9-E825-4E55-8A94-AE59AD44572D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EF090B9-E825-4E55-8A94-AE59AD44572D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83F06878-000E-4763-9565-A14110768637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83F06878-000E-4763-9565-A14110768637}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83F06878-000E-4763-9565-A14110768637}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83F06878-000E-4763-9565-A14110768637}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9AD35496-B3CB-4FD9-8DC2-1EFF1F0AAC6E}
+	EndGlobalSection
+EndGlobal
