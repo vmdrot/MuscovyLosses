@@ -9,7 +9,7 @@ namespace Evolvex.EnemyLosses.Tests
     [TestClass]
     public class MinfinParserTest
     {
-        private static readonly string _inputPath = @"D:\git\Mlhama202203\Evolvex.EnemyLosses\SampleData\MinfinEnemyCasualtiesSample.txt";
+        private static readonly string _inputPath = @"..\..\..\..\..\Evolvex.EnemyLosses\SampleData\MinfinEnemyCasualtiesSample.txt";
         [TestMethod]
         public void DateSplitter()
         {
@@ -68,8 +68,18 @@ namespace Evolvex.EnemyLosses.Tests
         public void ParseInduceNetsPrintAll()
         {
             var rslts = LossesRawTextMinfinParser.Parse(File.ReadAllText(_inputPath));
+            LossesAnalyzer.CleanUpGarbase(rslts);
             LossesAnalyzer.InduceFillNetDayLosses(rslts);
             File.WriteAllText($"{_inputPath}.netsfilled.json", JsonConvert.SerializeObject(rslts, Formatting.Indented));
+        }
+
+        [TestMethod]
+        public void TestDetectFalseLabels()
+        {
+            var rslts = LossesRawTextMinfinParser.Parse(File.ReadAllText(_inputPath));
+            LossesAnalyzer.InduceFillNetDayLosses(rslts);
+            var falseLabels = LossesAnalyzer.DetectFalseLabels(rslts);
+            Trace.WriteLine(String.Join("\n", falseLabels));
         }
     }
 }

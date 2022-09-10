@@ -11,21 +11,15 @@ namespace Evolvex.EnemyLosses.CLI
     {
         static void Main(string[] args)
         {
-            Console.Read();
             string inputPath = args[0];
             string outputPath = args[1];
             var stats = LossesRawTextMinfinParser.Parse(File.ReadAllText(inputPath));
+            LossesAnalyzer.CleanUpGarbase(stats);
             LossesAnalyzer.InduceFillNetDayLosses(stats);
-            List<DateTime> dates = stats.Select(r => r.Date).Distinct().ToList();
+            List<DateTime> dates = LossesAnalyzer.ListDatesDistinct(stats);
             DateTime minDt = dates.Min();
             DateTime mxDt = dates.Max();
-            List<string> labelsNonDistinct = new List<string>();
-            stats.ForEach(s => {
-                    foreach(string key in s.Records.Keys)
-                    labelsNonDistinct.Add(key);
-                }
-            );
-            List<string> labels = labelsNonDistinct.Distinct().ToList();
+            List<string> labels = LossesAnalyzer.ListLabelsDistinct(stats);
             using (StreamWriter sw = new StreamWriter(outputPath, false, Encoding.Unicode))
             {
                 sw.Write("Date");

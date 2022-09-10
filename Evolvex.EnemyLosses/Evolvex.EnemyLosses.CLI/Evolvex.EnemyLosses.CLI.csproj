@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Evolvex.EnemyLosses.Lib\Evolvex.EnemyLosses.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CMDs\" />
+  </ItemGroup>
+
 </Project>
