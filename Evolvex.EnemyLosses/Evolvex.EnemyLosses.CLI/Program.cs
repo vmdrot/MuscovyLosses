@@ -1,6 +1,7 @@
 ﻿using Evolvex.EnemyLosses.Lib.Data;
 using Evolvex.EnemyLosses.Lib.Misc;
 using Evolvex.EnemyLosses.Lib.Parsers;
+using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Text;
@@ -14,7 +15,7 @@ namespace Evolvex.EnemyLosses.CLI
             Console.Read();
             string inputPath = args[0];
             string outputPath = args[1];
-            string labelCategories = args.Length > 2 && !string.IsNullOrWhiteSpace(args[2]) ? args[2] : string.Empty;
+            bool categorizeLabels = args.Length > 2 && !string.IsNullOrWhiteSpace(args[2]) ? bool.Parse(args[2]) : false;
             var stats = LossesRawTextMinfinParser.Parse(File.ReadAllText(inputPath));
             LossesAnalyzer.CleanUpGarbase(stats);
             LossesAnalyzer.InduceFillNetDayLosses(stats);
@@ -22,18 +23,20 @@ namespace Evolvex.EnemyLosses.CLI
             DateTime minDt = dates.Min();
             DateTime mxDt = dates.Max();
             List<string> labels = LossesAnalyzer.ListLabelsDistinct(stats);
-            if (string.IsNullOrWhiteSpace(labelCategories))
+            if (!categorizeLabels)
                 Output(labels, outputPath, stats, minDt, mxDt);
             else
             {
                 string outDir = Path.GetDirectoryName(outputPath);
                 string fn = Path.GetFileNameWithoutExtension(outputPath);
                 string ext = Path.GetExtension(outputPath);
-                string[] cats = labelCategories.Split(';');
-                for (int i = 0; i < cats.Length; i++)
+                string json = Tools.ReadEmbeddedResource("Evolvex.EnemyLosses.Lib.Resources.MaterielCategories.json", typeof(Tools).Assembly);
+                LossesCategorization categorization = JsonConvert.DeserializeObject<LossesCategorization>(json);
+
+                foreach (string catKey in categorization.ScaleCategorization.Keys)
                 {
-                    List<string> currLbls = new List<string>(cats[i].Split(','));
-                    Output(currLbls, Path.Combine(outDir, $"{fn}.{i}{ext}"), stats, minDt, mxDt);
+                    List<string> currLbls = categorization.ScaleCategorization[catKey];
+                    Output(currLbls, Path.Combine(outDir, $"{fn}.{catKey}{ext}"), stats, minDt, mxDt);
                 }
             }
         }
